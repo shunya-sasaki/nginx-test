@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_ARBITARY: 1
+      PMA_HOST: mysql
+      # PMA_USER: develop
+      # PMA_PASSWORD: develop-test
+    container_name: phpmyadmin
+    expose:
+      - 80
+    networks:
+      backend:
+        ipv4_address: 192.168.1.30 
+
+networks:
+  default:
+    external:
+      name: bridge
+  backend:
+    external:
+      name: test-network
+  

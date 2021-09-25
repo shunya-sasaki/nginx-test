@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  web:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:rw
+    networks:
+      backend:
+        ipv4_address: 192.168.1.10
+  
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: test-db
+      MYSQL_USER: develop
+      MYSQL_PASSEORD: develop-test
+    container_name: mysql
+    networks:
+      backend:
+        ipv4_address: 192.168.1.20
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #     PMA_ARBITARY: 1
+  #     PMA_HOST: mysql
+  #     # PMA_USER: develop
+  #     # PMA_PASSWORD: develop-test
+  #   container_name: phpmyadmin
+  #   expose:
+  #     - 80
+  #   networks:
+  #     - backend
+
+
+networks:
+  default:
+    external:
+      name: bridge
+  backend:
+    name: test-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/24
+
+  
